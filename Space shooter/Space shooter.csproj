@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Space_shooter</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\player.png" />
+    <None Remove="images\purple.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\player.png" />
+    <Resource Include="images\purple.png" />
+  </ItemGroup>
+
+</Project>

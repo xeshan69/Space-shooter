@@ -1,0 +1,39 @@
+﻿<Window x:Class="Space_shooter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Space_shooter"
+        mc:Ignorable="d"
+      Title="Space Shooter" Height="500" Width="400" >
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Name="scorebar" Height="35"/>
+            <RowDefinition Name="Mainscreen"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="\images\purple.png" TileMode="Tile" Viewport="0,0,0.15,0.15"/>
+        </Grid.Background>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Score:" FontSize="20" Margin="5 -8 0 0"/>
+            <Label Grid.Column="1" Content="Damage:" FontSize="20" Margin="-10 -8 0 0" HorizontalContentAlignment="Center"/>
+        </Grid>
+        <Canvas Name="mycanvas" Grid.Row="1" KeyUp="mycanvas_KeyUp" KeyDown="mycanvas_KeyDown" Focusable="True">
+            <Rectangle Name="player" Height="45" Width="44" Canvas.Left="178" Canvas.Top="375" HorizontalAlignment="Center" >
+                <Rectangle.Fill>
+
+                    <ImageBrush ImageSource="\images\player.png" Stretch="Fill" />
+                </Rectangle.Fill>
+
+            </Rectangle>
+            
+        </Canvas>
+    </Grid>
+
+
+</Window>
