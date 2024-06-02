@@ -98,26 +98,32 @@ namespace Space_shooter
             { 
 
                 case 1:
-                    enemy.ImageSource = new BitmapImage(new Uri("/images/1.png"));
+                    enemy.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/1.png"));
+                    //MessageBox.Show("case1");                    enemy.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/2.png"));
+
                     break;
                     
                 case 2:
-                    enemy.ImageSource = new BitmapImage(new Uri("/images/2.png"));
+                    enemy.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/2.png"));
+                    
                     break;
                 case 3:
-                    enemy.ImageSource = new BitmapImage(new Uri("/images/3.png"));
+                    enemy.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/3.png"));
+                    
                     break;
                 case 4:
-                    enemy.ImageSource = new BitmapImage(new Uri("/images/4.png"));
+                    enemy.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/4.png"));
+                   
                     break;
                 case 5:
-                    enemy.ImageSource = new BitmapImage(new Uri("/images/5.png"));
+                    enemy.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/5.png"));
+                    
                     break;
                
             }
             Rectangle newenemy = new Rectangle
             {
-                Tag = "newenemy",
+                Tag = "enemyspawn",
                 Height = 20,
                 Width = 20,
                 Fill = enemy
