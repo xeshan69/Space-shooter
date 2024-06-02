@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Space_shooter"
         mc:Ignorable="d"
-      Title="Space Shooter" Height="500" Width="400" >
+      Title="Space Shooter" Height="500" Width="400"  >
 
     <Grid >
         <Grid.RowDefinitions>
@@ -20,8 +20,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Score:" FontSize="20" Margin="5 -8 0 0"/>
-            <Label Grid.Column="1" Content="Damage:" FontSize="20" Margin="-10 -8 0 0" HorizontalContentAlignment="Center"/>
+            <Label x:Name="scoretxt" Grid.Column="0" Content="Score:" FontSize="20" Margin="5 -8 0 0"/>
+            <Label x:Name="damagetxt" Grid.Column="1" Content="Damage:" FontSize="20" Margin="-10 -8 0 0" HorizontalContentAlignment="Center"/>
         </Grid>
         <Canvas Name="mycanvas" Grid.Row="1" KeyUp="mycanvas_KeyUp" KeyDown="mycanvas_KeyDown" Focusable="True">
             <Rectangle Name="player" Height="45" Width="44" Canvas.Left="178" Canvas.Top="375" HorizontalAlignment="Center" >
