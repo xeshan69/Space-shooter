@@ -17,6 +17,9 @@
     <None Remove="images\5.png" />
     <None Remove="images\player.png" />
     <None Remove="images\purple.png" />
+    <None Remove="sounds\explosion.wav" />
+    <None Remove="sounds\gameover.wav" />
+    <None Remove="sounds\laser.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +30,15 @@
     <Resource Include="images\5.png" />
     <Resource Include="images\player.png" />
     <Resource Include="images\purple.png" />
+    <Resource Include="sounds\explosion.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="sounds\gameover.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="sounds\laser.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

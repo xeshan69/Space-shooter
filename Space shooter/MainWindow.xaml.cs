@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Media;
+using System.Reflection.Emit;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,7 +28,12 @@ namespace Space_shooter
         int limit = 50;
         int score;
         int damage;
-       
+
+
+        SoundPlayer shootPlayer = new SoundPlayer("C:\\Users\\xesha\\source\\repos\\Space shooter\\Space shooter\\sounds\\laser.wav");
+        SoundPlayer explosionPlayer = new SoundPlayer("C:\\Users\\xesha\\source\\repos\\Space shooter\\Space shooter\\sounds\\explosion.wav");
+        SoundPlayer gameoverPlayer = new SoundPlayer("C:\\Users\\xesha\\source\\repos\\Space shooter\\Space shooter\\sounds\\gameover.wav");
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,9 +41,12 @@ namespace Space_shooter
 
             timer.Tick += Playermovement;
           
-            timer.Start();
+            timer.Start(); 
             mycanvas.Focus();
-           
+
+            gameoverPlayer.Load();
+            explosionPlayer.Load();
+            shootPlayer.Load();
         }
 
 
@@ -44,7 +54,7 @@ namespace Space_shooter
         {
             Rect playerhitbox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             enemycounter -= 1;
-
+            
             scoretxt.Content = "Score: " + score;
             damagetxt.Content = "Damage: " + damage;
 
@@ -102,7 +112,10 @@ namespace Space_shooter
                         {
                             itemremover.Add(x); 
                             itemremover.Add(y); 
-                            score += 10; 
+                            score += 10;
+
+                            explosionPlayer.Stop(); 
+                            explosionPlayer.Play();
                         }
                     }
                 }
@@ -122,6 +135,9 @@ namespace Space_shooter
                     {
                         itemremover.Add(x);
                         damage += 10;
+
+                        explosionPlayer.Stop(); 
+                        explosionPlayer.Play();
                     }
                 }
             }
@@ -166,6 +182,9 @@ namespace Space_shooter
                 Canvas.SetTop(newbullet, Canvas.GetTop(player) - newbullet.Height);
                 mycanvas.Children.Add(newbullet);
 
+
+                shootPlayer.Stop(); 
+                shootPlayer.Play();
             }
 
         }
@@ -227,6 +246,7 @@ namespace Space_shooter
         private void EndGame()
         {
             timer.Stop();
+            gameoverPlayer.Play();
             MessageBoxResult result = MessageBox.Show("Game Over! Your score is " + score + ". Do you want to restart?", "Game Over", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
@@ -249,6 +269,7 @@ namespace Space_shooter
 
             // Restart the Game
             timer.Start();
+            
         }
     }
 }
