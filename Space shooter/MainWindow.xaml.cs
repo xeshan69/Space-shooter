@@ -12,10 +12,7 @@ using System.Windows.Threading;
 
 namespace Space_shooter
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-
+   
     public partial class MainWindow : Window
     {
         DispatcherTimer timer = new DispatcherTimer();
@@ -39,81 +36,108 @@ namespace Space_shooter
           
             timer.Start();
             mycanvas.Focus();
-            //enemyspawn();
+           
         }
 
-        private void Playermovement(object? sender, EventArgs e)
+
+        private void Playermovement(object sender, EventArgs e)
         {
-            Rect playerhitbox= new Rect(Canvas.GetTop(player),Canvas.GetLeft(player),player.Height,player.Width);
+            Rect playerhitbox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             enemycounter -= 1;
-            
+
             scoretxt.Content = "Score: " + score;
             damagetxt.Content = "Damage: " + damage;
+
+             // Adjust enemy spawning speed 
+            if (score >= 50 && score < 100)
+            {
+                limit = 45; 
+            }
+            else if (score >= 100 && score < 150)
+            {
+                limit = 40; 
+            }
+            else if (score >= 150)
+            {
+                limit = 35; 
+            }
+            else if(score>=250) 
+            {
+                limit = 25;
+            }
+
+
             if (enemycounter < 0)
             {
                 enemyspawn();
                 enemycounter = limit;
             }
 
-
-            if (moveLeft == true && Canvas.GetLeft(player) > 0)
+            if (moveLeft && Canvas.GetLeft(player) > 0)
             {
-
                 Canvas.SetLeft(player, Canvas.GetLeft(player) - leftmovespeed);
             }
-            if (moveRight == true && Canvas.GetLeft(player) < 340)
+            if (moveRight && Canvas.GetLeft(player) < 340)
             {
-
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + rightmovespeed);
             }
 
-            //Bullet Firring//
-            foreach (var a in mycanvas.Children.OfType<Rectangle>())
+            // Bullet Firing and Collision Detection
+            foreach (var x in mycanvas.Children.OfType<Rectangle>())
             {
-
-                if (a is Rectangle && (string)a.Tag == "bullet")
+                if ((string)x.Tag == "bullet")
                 {
-                    Canvas.SetTop(a, Canvas.GetTop(a) - 20);
-                    Rect bullethitbox = new Rect(Canvas.GetLeft(a), Canvas.GetTop(a), a.Height, a.Width);
-                    if (Canvas.GetTop(a) < 10)
+                    Canvas.SetTop(x, Canvas.GetTop(x) - 20);
+                    Rect bullethitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Canvas.GetTop(x) < 10)
                     {
-                        itemremover.Add(a);
-
+                        itemremover.Add(x);
                     }
-                    
+
+                    // Check collision between bullet and enemies
+                    foreach (var y in mycanvas.Children.OfType<Rectangle>().Where(r => (string)r.Tag == "enemyspawn"))
+                    {
+                        Rect enemyhitbox = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+                        if (bullethitbox.IntersectsWith(enemyhitbox))
+                        {
+                            itemremover.Add(x); 
+                            itemremover.Add(y); 
+                            score += 10; 
+                        }
+                    }
                 }
 
-
-
-                if (a is Rectangle && (string)a.Tag == "enemyspawn")
+                if ((string)x.Tag == "enemyspawn")
                 {
-                    Canvas.SetTop(a, Canvas.GetTop(a) + enemyspeed);
+                    Canvas.SetTop(x, Canvas.GetTop(x) + enemyspeed);
+                    Rect enemyhitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
-                    if (Canvas.GetTop(a) > Canvas.GetTop(player)+100)
+                    if (Canvas.GetTop(x) > 480)
                     {
-                        itemremover.Add(a);
-                        damage += 1;
+                        itemremover.Add(x);
+                        damage += 5;
                     }
-                    Rect enemyhitbox = new Rect(Canvas.GetLeft(a), Canvas.GetTop(a), a.Height, a.Width);
-                    
 
                     if (playerhitbox.IntersectsWith(enemyhitbox))
                     {
-                        MessageBox.Show("sex sux");
-                        itemremover.Add(a);
+                        itemremover.Add(x);
                         damage += 10;
-                        
                     }
-                    
                 }
             }
-            foreach(Rectangle i in itemremover)
+
+            foreach (Rectangle i in itemremover)
             {
                 mycanvas.Children.Remove(i);
             }
-            
+            itemremover.Clear();
 
+            if (damage >= 100)
+            {
+                EndGame();
+            }
         }
+
         private void mycanvas_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Left)
@@ -193,12 +217,39 @@ namespace Space_shooter
                 Height = 30,
                 Width = 30,
                 Fill = enemy
-
+                
             };
             Canvas.SetTop(newenemy, -100);
             Canvas.SetLeft(newenemy,rand.Next(20,350)); 
             mycanvas.Children.Add(newenemy);
         }
-      
+
+        private void EndGame()
+        {
+            timer.Stop();
+            MessageBoxResult result = MessageBox.Show("Game Over! Your score is " + score + ". Do you want to restart?", "Game Over", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                RestartGame();
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        private void RestartGame()
+        {
+            
+            score = 0;
+            damage = 0;
+            enemycounter = 100;
+            mycanvas.Children.Clear();
+            mycanvas.Children.Add(player);
+
+            // Restart the Game
+            timer.Start();
+        }
     }
 }
+    
